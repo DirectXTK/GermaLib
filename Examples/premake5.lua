@@ -1,37 +1,33 @@
-project "GermLib"
-    kind "StaticLib"
-    language "C++"
+project "Examples"
+    kind "ConsoleApp"
+    language"C++"
     cppdialect "C++17"
-
     targetdir("../Bin".. OutputDir.. "/%{prj.name}")
     objdir("../Bin-int".. OutputDir.. "/%{prj.name}")
 
     files{
-        "Source/**.cpp",
         "Source/**.h",
+        "Source/**.cpp",
     }
-
     defines{
         "WINDOWS"
     }
-
-    includedirs{
-
-    }
-
-    libdirs{
-
-    }
-
     links{
 
     }
+    libdirs {
+
+    }
+    includedirs{
+        "../GermLib/Source",
+    }
+
+
 
     filter{"configurations:Debug"}
-        runtime "Debug"
-        symbols "on"
-        staticruntime "off"
-
+        runtime"Debug"
+        symbols"on"
+        staticruntime"off"
     filter{"configurations:Release"}
-        optimize "on"
-        runtime "Release"
+        optimize"on"
+        runtime"Release"
