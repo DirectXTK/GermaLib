@@ -14,7 +14,7 @@ namespace Germ{
         Stack(){
             Resize(InitSize);
         }
-        void Push(const T& Data){
+        void Push( T&& Data){
             if(m_Size+1 >m_Capacity)
                 Resize(m_Capacity+InitSize);
             // m_Data[m_Size]=T();   
@@ -23,10 +23,11 @@ namespace Germ{
         }
         void Pop(){
             m_Size--;
-            if(m_Capacity/m_Size >=1.1f&&m_Capacity != 256)
+           if((float)m_Capacity/(float)m_Size >=1.1f&&m_Capacity != 256)
                 Resize(m_Capacity-InitSize);
         }
         T& Top(){
+            printf("CurrentSize %i\n",m_Size);
             return m_Data[m_Size-1];
         }
         uint64_t Size(){return m_Size;}
@@ -37,10 +38,6 @@ namespace Germ{
         void Resize(uint64_t NewSize){
             T* NewData = new T[NewSize];
             memcpy(NewData,m_Data,sizeof(T)*m_Size);
-            for(uint64_t i =0;i < m_Size;i++){
-                //NewData[i] = T();
-                //NewData[i] = m_Data[i];
-            }
 
             delete[] m_Data;
             m_Data = NewData;
