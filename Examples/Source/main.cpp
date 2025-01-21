@@ -1,29 +1,31 @@
 #include "GermLib.h"
 #include <iostream>
+#include <stack>
 #include <string>
-#include <unordered_map>
+void* operator new(std::size_t Size){
+    printf("Allocation %i bytes\n",Size);
+    return malloc(Size);
+}
+void operator delete(void* ptr,std::size_t size){
+    printf("Deallocating %i bytes \n",size);
+    free(ptr);
+}
 int main(){
 
     char strvar[100];
-    std::unordered_map<std::string,int> map{};
-    std::string a;
-
-    a = "lafa";
-    Germ::Array<int,5> Array;
+    Germ::Stack<std::string> lafa;
+   // std::stack<std::string> lafa;
+        lafa.Push("Pirmas");
+        lafa.Push("Antras");
+        lafa.Push("Trecias");
+        lafa.Push("Ketvirtas");
+        lafa.Push("Penktas");
+        
 
     for(uint32_t i=0;i < 5;i++){
-        Array[i] = i*30;
-        printf("Array[%i]=%i",i,Array[i]);
+        printf("LAFA.top=%s\n",lafa.Top().c_str());
+        lafa.Pop();
     }
-
-    map["Vytas"] = 20;
-    map["Gabuks"]= 21;
-    map["Pusbrolys"]=22;
-
-    for(auto it = map.begin();it != map.end();it++){
-        printf("%s = %i",it->first.c_str(),it->second);
-    }
-    //cout and cin notworking
 
     fgets(strvar,100,stdin);
     return 0;

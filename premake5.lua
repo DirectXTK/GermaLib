@@ -9,6 +9,9 @@ workspace "GermEngine"
     startproject "GermLib"
     startproject "Examples"
 
+  
+   
+
 OutputDir = "%{cfg.build}/%{cfg.system}/%{cfg.architecture}"
 include "GermLib"
 include "Examples"

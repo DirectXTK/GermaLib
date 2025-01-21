@@ -4,6 +4,8 @@ project "Examples"
     cppdialect "C++17"
     targetdir("../Bin".. OutputDir.. "/%{prj.name}")
     objdir("../Bin-int".. OutputDir.. "/%{prj.name}")
+    PostBuildCommandSh = "%{!cfg.buildtarget.abspath}"
+
 
     files{
         "Source/**.h",
@@ -21,7 +23,10 @@ project "Examples"
     includedirs{
         "../GermLib/Source",
     }
-
+    postbuildcommands {
+        {"%{!prj.location}/PostBuildCommands.sh %{PostBuildCommandSh} &"},
+    }
+   
 
 
     filter{"configurations:Debug"}
