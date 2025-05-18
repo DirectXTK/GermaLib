@@ -1,5 +1,6 @@
 workspace "GermEngine"
     architecture "x64"
+    toolset "clang"
     language "C++"
     cppdialect "C++17"
     characterset ("Unicode")

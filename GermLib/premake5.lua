@@ -2,10 +2,10 @@ project "GermLib"
     kind "StaticLib"
     language "C++"
     cppdialect "C++17"
-
+    toolset "clang"
     targetdir("../Bin".. OutputDir.. "/%{prj.name}")
     objdir("../Bin-int".. OutputDir.. "/%{prj.name}")
-
+    
     files{
         "Source/**.cpp",
         "Source/**.h",

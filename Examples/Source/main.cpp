@@ -1,46 +1,85 @@
 #include "GermLib.h"
+#include "SmartPointers.h"
 #include <iostream>
 #include <string>
 #include <stack>
-void* operator new(std::size_t Size){
-    printf("Allocation %i bytes\n",Size);
-    return malloc(Size);
+#include <unordered_map>
+#include <fstream>
+#include <memory>
+struct Custom{
+    int* lafa{};
+    float* f1{};
+   
+};
+template<typename T>
+class CustomAlloc{
+    public:
+
+    using value_type = T;
+
+    CustomAlloc() noexcept = default;
+
+    Custom* allocate(uint64_t Size){
+        return nullptr;
+    }
+    void deallocate(T* data,uint64_t Size){
+        delete data->f1;
+        delete data->lafa;
+        printf("Custom alloc\n");
+    }
+
+    private:
+
+};
+void TestUnique(){
+    int* number = new int();
+    *number = 69;
+
+    Custom* custom{};
+    custom = new Custom();
+
+  //  custom.f1 = new float();
+    //custom.lafa = new int();
+    Germ::UniquePointer<Custom> lafa2 = Germ::MakeUnique<Custom>(custom);
+    
+    Germ::UniquePointer<int> un = Germ::MakeUnique<int>(number);
+    
+    printf("Un is %i\n",*un.GetData());
+    Germ::UniquePointer<int> lafa = std::move(un);
+    if(!un)
+        printf("Empty\n");
+
+    printf("lafa is %i\n",*lafa.GetData());
 }
-void operator delete(void* ptr,std::size_t size){
-    printf("Deallocating %i bytes \n",size);
-    free(ptr);
+void TestShared(){
+  Germ::String First{"lafa"};
+    int * lafa = new int();
+    *lafa = 55;
+    {
+    Germ::SharedPointer<int> pointer = Germ::MakeShared<int>(lafa);
+
+    std::cout << pointer.GetRefCount()<<"\n";
+
+    Germ::SharedPointer l1 =pointer;
+    std::cout << pointer.GetRefCount()<<"\n";
+    {
+    Germ::SharedPointer l3 =pointer;
+    Germ::SharedPointer l4 =pointer;
+    Germ::SharedPointer l5 =pointer;
+    std::cout << pointer.GetRefCount()<<"\n";
+
+    }
+    std::cout << pointer.GetRefCount()<<"\n";
+
+    std::cout << First;
+    std::cout << *lafa<<"\n";
+    }
+    std::cout << *lafa;
 }
 int main(){
 
-    char strvar[100];
-    /*
-    Germ::Stack<std::string> lafa;
-   // std::stack<std::string> lafa;
-        lafa.Push("Pirmas");
-        lafa.Push("Antras");
-        lafa.Push("Trecias");
-        lafa.Push("Ketvirtas");
-        lafa.Push("Penktas");
-        
-
-    for(uint32_t i=0;i < 5;i++){
-        printf("LAFA.top=%s\n",lafa.Top().c_str());
-        lafa.Pop();
-    }
-    */
-    Germ::String First("Pirmas");
-    Germ::String Second("Antras");
-    Germ::String Third("Trecias");
-
-    Second= "Is tikra ne antrs";
-    Third=First;
-
-    printf("First=%s\n",First.C_str());
-    printf("Second=%s\n",Second.C_str());
-    printf("Third=%s\n",Third.C_str());
+  TestUnique();
 
 
-
-    fgets(strvar,100,stdin);
     return 0;
 }

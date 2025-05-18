@@ -1,5 +1,6 @@
 project "Examples"
     kind "ConsoleApp"
+    toolset "clang"
     language"C++"
     cppdialect "C++17"
     targetdir("../Bin".. OutputDir.. "/%{prj.name}")

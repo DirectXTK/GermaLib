@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <cstdint>
+#include <ostream>
 namespace Germ{
 
 class String{
@@ -48,11 +49,18 @@ class String{
         ~String(){
             delete[] m_Data;
         }
+
     private:
+     friend std::ostream& operator<<(std::ostream& os,const Germ::String& string){
+         os << string.m_Data;
+         return os;
+        }
+        
     uint64_t m_Size{};
     uint64_t m_Capacity{};
     char* m_Data{};
 };
+    
 
 
 }
