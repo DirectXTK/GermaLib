@@ -39,15 +39,15 @@ namespace Germ{
     };
 
     
-    template<typename T,typename Alloc= std::allocator<T>>
+    template<typename T,typename Alloc= std::allocator<T>,typename ...ARGS>
     class UniquePointer{
         public:
 
         bool Empty(){return m_Data ==nullptr? true:false;}
         T* GetData(){return m_Data;}
 
-        template<typename A,typename Alloc>
-        friend UniquePointer<A,Alloc> MakeUnique(A* Pointer);
+        template<typename A,typename Alloc,typename ...ARGS>
+        friend UniquePointer<A,Alloc> MakeUnique(ARGS... args);
 
         operator bool(){return m_Data == nullptr ? false:true;}
         UniquePointer( UniquePointer& other)=delete;
@@ -62,15 +62,17 @@ namespace Germ{
             printf("Deleted\n");
         }
         private:
-        UniquePointer(T* Pointer){
-            m_Data = Pointer;
+        UniquePointer(T* pointer){
+            m_Data = pointer;
         }
+        
         Alloc Allocator{};
         T* m_Data{};
     };
-    template<typename T,typename Alloc= std::allocator<T>>
-    UniquePointer<T,Alloc> MakeUnique(T* Pointer){
-        return UniquePointer<T,Alloc>(Pointer);
+    template<typename T,typename Alloc= std::allocator<T>,typename ...ARGS>
+    UniquePointer<T,Alloc> MakeUnique(ARGS ...args){
+        Allocator alloc;
+        return UniquePointer<T,Alloc>(new T(args...));
     }
     template<typename T>
     SharedPointer<T> MakeShared(T* Pointer){

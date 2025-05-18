@@ -7,6 +7,11 @@
 #include <fstream>
 #include <memory>
 struct Custom{
+    Custom(int input){
+        lafa = new int();
+        *lafa = input;
+        printf("Number %i",*lafa);
+    }
     int* lafa{};
     float* f1{};
    
@@ -34,22 +39,7 @@ class CustomAlloc{
 void TestUnique(){
     int* number = new int();
     *number = 69;
-
-    Custom* custom{};
-    custom = new Custom();
-
-  //  custom.f1 = new float();
-    //custom.lafa = new int();
-    Germ::UniquePointer<Custom> lafa2 = Germ::MakeUnique<Custom>(custom);
-    
-    Germ::UniquePointer<int> un = Germ::MakeUnique<int>(number);
-    
-    printf("Un is %i\n",*un.GetData());
-    Germ::UniquePointer<int> lafa = std::move(un);
-    if(!un)
-        printf("Empty\n");
-
-    printf("lafa is %i\n",*lafa.GetData());
+   Germ::UniquePointer<Custom> uq = Germ::MakeUnique<Custom>(5);
 }
 void TestShared(){
   Germ::String First{"lafa"};
